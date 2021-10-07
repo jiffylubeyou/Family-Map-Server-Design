@@ -10,13 +10,25 @@ import java.util.List;
 import java.util.TreeSet;
 
 public class EventDao {
+    /**
+     * How we connect to our database
+     */
     private final Connection conn;
 
+    /**
+     * Connecting to our database upon instantiating the object
+     * @param conn Connection
+     */
     public EventDao(Connection conn)
     {
         this.conn = conn;
     }
 
+    /**
+     * will insert a new event object into the database
+     * @param event Event Object
+     * @throws DataAccessException
+     */
     public void insert(Event event) throws DataAccessException {
         //We can structure our string to be similar to a sql command, but if we insert question
         //marks we can change them later with help from the statement
@@ -42,6 +54,12 @@ public class EventDao {
         }
     }
 
+    /**
+     * Will return an event object that corresponds to the event in the database that has this event ID
+     * @param eventID String
+     * @return Event object
+     * @throws DataAccessException
+     */
     public Event find(String eventID) throws DataAccessException {
         Event event;
         ResultSet rs = null;

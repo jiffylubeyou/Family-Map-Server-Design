@@ -26,7 +26,7 @@ public class Event {
 
 
     /**
-     * Get the Event ID
+     * @return string eventID
      */
     public String getEventID() {
         return eventID;
@@ -34,7 +34,7 @@ public class Event {
 
 
     /**
-     * Set the Event ID
+     * @param eventID String
      */
     public void setEventID(String eventID) {
         this.eventID = eventID;
@@ -42,7 +42,7 @@ public class Event {
 
 
     /**
-     * Get the user's name
+     * @return String username
      */
     public String getUsername() {
         return associatedUsername;
@@ -50,7 +50,7 @@ public class Event {
 
 
     /**
-     * Set the user's name
+     * @param username String
      */
     public void setUsername(String username) {
         this.associatedUsername = username;
@@ -58,7 +58,7 @@ public class Event {
 
 
     /**
-     * Get the Person's ID
+     * @return String personID
      */
     public String getPersonID() {
         return personID;
@@ -66,7 +66,7 @@ public class Event {
 
 
     /**
-     * Set the Person's ID
+     * @param personID String
      */
     public void setPersonID(String personID) {
         this.personID = personID;
@@ -74,7 +74,7 @@ public class Event {
 
 
     /**
-     * Get the Latitude
+     * @return float latitude
      */
     public float getLatitude() {
         return latitude;
@@ -82,7 +82,7 @@ public class Event {
 
 
     /**
-     * Set the Latitude
+     * @param latitude float
      */
     public void setLatitude(float latitude) {
         this.latitude = latitude;
@@ -90,7 +90,7 @@ public class Event {
 
 
     /**
-     * Get the Longitude
+     * @return latitude float
      */
     public float getLongitude() {
         return longitude;
@@ -98,7 +98,7 @@ public class Event {
 
 
     /**
-     * Set the Longitude
+     * @param longitude float
      */
     public void setLongitude(float longitude) {
         this.longitude = longitude;
@@ -106,7 +106,7 @@ public class Event {
 
 
     /**
-     * Get the Country
+     * @return String country
      */
     public String getCountry() {
         return country;
@@ -114,7 +114,7 @@ public class Event {
 
 
     /**
-     * Set the Country
+     * @param country String
      */
     public void setCountry(String country) {
         this.country = country;
@@ -122,7 +122,7 @@ public class Event {
 
 
     /**
-     * Get the City
+     * @return String city
      */
     public String getCity() {
         return city;
@@ -130,7 +130,7 @@ public class Event {
 
 
     /**
-     * Set the City
+     * @param city String
      */
     public void setCity(String city) {
         this.city = city;
@@ -138,7 +138,7 @@ public class Event {
 
 
     /**
-     * Get Event Type
+     * @return String eventType
      */
     public String getEventType() {
         return eventType;
@@ -146,7 +146,7 @@ public class Event {
 
 
     /**
-     * Set the Event Type
+     * @param eventType String
      */
     public void setEventType(String eventType) {
         this.eventType = eventType;
@@ -154,7 +154,7 @@ public class Event {
 
 
     /**
-     * Get the Year
+     * @return int year
      */
     public int getYear() {
         return year;
@@ -162,12 +162,17 @@ public class Event {
 
 
     /**
-     * Set the Year
+     * @param year int
      */
     public void setYear(int year) {
         this.year = year;
     }
 
+    /**
+     * This function is used to see if two event objects are the same
+     * @param o Event object
+     * @return boolean
+     */
     @Override
     public boolean equals(Object o) {
         if (o == null)
