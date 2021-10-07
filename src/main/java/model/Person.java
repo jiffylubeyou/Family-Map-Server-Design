@@ -25,7 +25,7 @@ public class Person {
 
 
     /**
-     * @return String
+     * @return personID String
      */
     public String getPersonID() {
         return personID;
@@ -39,7 +39,7 @@ public class Person {
     }
 
     /**
-     * @return String
+     * @return associatedUsername String
      */
     public String getAssociatedUsername() {
         return associatedUsername;
@@ -53,7 +53,7 @@ public class Person {
     }
 
     /**
-     * @return String
+     * @return firstName String
      */
     public String getFirstName() {
         return firstName;
