@@ -2,10 +2,8 @@ package dao;
 
 import model.Event;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.xml.crypto.Data;
+import java.sql.*;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -88,6 +86,21 @@ public class EventDao {
 
         }
         return null;
+    }
+
+    /**
+     * Takes in an event object and removes that event from the Events table
+     * @param event object
+     * @throws DataAccessException
+     */
+    public void Delete(Event event) throws DataAccessException
+    {
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM Events WHERE EventID = " + event.getEventID();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while deleting user");
+        }
     }
 
 //    public List<Event> findForUser (String username) {return new List<Event>()}
