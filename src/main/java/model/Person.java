@@ -135,5 +135,29 @@ public class Person {
     public void setSpouseID(String spouseID) {
         this.spouseID = spouseID;
     }
+
+    /**
+     * Returns true if all the info is the same
+     * @param o Person object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (o instanceof Person) {
+            Person oPerson = (Person) o;
+            return oPerson.getPersonID().equals(getPersonID()) &&
+                    oPerson.getAssociatedUsername().equals(getAssociatedUsername()) &&
+                    oPerson.getFirstName().equals(getFirstName()) &&
+                    oPerson.getLastName().equals(getLastName()) &&
+                    oPerson.getGender().equals(getGender()) &&
+                    oPerson.getFatherID().equals(getFatherID()) &&
+                    oPerson.getMotherID().equals(getMotherID()) &&
+                    oPerson.getSpouseID().equals(getSpouseID());
+        } else {
+            return false;
+        }
+    }
 }
 

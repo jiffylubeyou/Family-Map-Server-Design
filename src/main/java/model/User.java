@@ -118,6 +118,29 @@ public class User {
     public void setPersonID(String personID) {
         this.personID = personID;
     }
+
+    /**
+     * Returns true if all the info is the same
+     * @param o User object
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null)
+            return false;
+        if (o instanceof User) {
+            User oUser = (User) o;
+            return oUser.getUsername().equals(getUsername()) &&
+                    oUser.getPassword().equals(getPassword()) &&
+                    oUser.getEmail().equals(getEmail()) &&
+                    oUser.getFirstName().equals(getFirstName()) &&
+                    oUser.getLastName().equals(getLastName()) &&
+                    oUser.getGender().equals(getGender()) &&
+                    oUser.getPersonID().equals(getPersonID());
+        } else {
+            return false;
+        }
+    }
 }
 
 
