@@ -94,6 +94,16 @@ public class UserDao {
         }
     }
 
+    public void clearTable() throws DataAccessException
+    {
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM Users;";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing Users table");
+        }
+    }
+
 //    boolean Validate (String username, String password) {}
 
 //    User getUserById (String userID) {}

@@ -103,5 +103,15 @@ public class EventDao {
         }
     }
 
+    public void clearTable() throws DataAccessException
+    {
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM Events;";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing Events table");
+        }
+    }
+
 //    public List<Event> findForUser (String username) {return new List<Event>()}
 }

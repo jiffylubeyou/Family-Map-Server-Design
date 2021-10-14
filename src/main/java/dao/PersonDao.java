@@ -100,4 +100,14 @@ public class PersonDao {
             throw new DataAccessException("SQL Error encountered while deleting person");
         }
     }
+
+    public void clearTable() throws DataAccessException
+    {
+        try (Statement stmt = conn.createStatement()){
+            String sql = "DELETE FROM Persons;";
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new DataAccessException("SQL Error encountered while clearing Persons table");
+        }
+    }
 }
