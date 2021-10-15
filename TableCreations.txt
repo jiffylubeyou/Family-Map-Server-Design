@@ -1,0 +1,42 @@
+DROP TABLE IF EXISTS Persons;
+CREATE TABLE Persons (
+	PersonID string NOT NULL,
+	AssociatedUsername string NOT NULL,
+	FirstName string NOT NULL,
+	LastName string NOT NULL,
+	Gender string NOT NULL,
+	FatherID string,
+	MotherID string,
+	SpouseID string,
+	PRIMARY KEY (PersonID)
+);
+DROP TABLE IF EXISTS Users;
+CREATE TABLE Users (
+	Username string NOT NULL,
+	Password string NOT NULL,
+	Email string NOT NULL,
+	Firstname string NOT NULL,
+	Lastname string NOT NULL,
+     	Gender string NOT NULL,
+	PersonID string NOT NULL,
+	PRIMARY KEY (Username)
+);
+DROP TABLE IF EXISTS Events;
+CREATE TABLE Events (
+	EventID string NOT NULL,
+	AssociatedUsername string NOT NULL,
+	PersonID string NOT NULL,
+	Latitude float NOT NULL,
+	Longitude float NOT NULL,
+	Country string NOT NULL,
+	City string NOT NULL,
+	EventType string NOT NULL,
+	Year int NOT NULL,
+	PRIMARY KEY (EventID)
+);
+DROP TABLE IF EXISTS AuthTokens;
+CREATE TABLE AuthTokens (
+	TokenID string NOT NULL,
+	AssociatedUsername string NOT NULL,
+	PRIMARY KEY (TokenID)
+);
