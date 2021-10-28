@@ -3,14 +3,14 @@ package services;
 import requestresponse.RegisterRequest;
 import requestresponse.RegisterResult;
 
-public class Register {
+public class RegisterService {
     private RegisterRequest registerRequest;
 
     /**
      * Taking in the register information
      * @param registerRequest RegisterRequest object
      */
-    public Register (RegisterRequest registerRequest)
+    public RegisterService (RegisterRequest registerRequest)
     {
         this.registerRequest = registerRequest;
     }

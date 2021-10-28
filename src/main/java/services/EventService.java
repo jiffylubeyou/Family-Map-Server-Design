@@ -3,14 +3,14 @@ package services;
 import requestresponse.EventRequest;
 import requestresponse.EventResult;
 
-public class Event {
+public class EventService {
     private EventRequest eventRequest;
 
     /**
      * Takes in the eventrequest object to process it later
      * @param eventRequest EventRequest Object
      */
-    public Event (EventRequest eventRequest)
+    public EventService (EventRequest eventRequest)
     {
         this.eventRequest = eventRequest;
     }

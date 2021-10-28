@@ -83,7 +83,6 @@ public class EventDao {
                     e.printStackTrace();
                 }
             }
-
         }
         return null;
     }

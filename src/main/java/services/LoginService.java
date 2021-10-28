@@ -3,14 +3,14 @@ package services;
 import requestresponse.LoginRequest;
 import requestresponse.LoginResult;
 
-public class Login {
+public class LoginService {
     private LoginRequest loginRequest;
 
     /**
      * Takes in the request object
      * @param loginRequest LoginRequest object
      */
-    public Login (LoginRequest loginRequest)
+    public LoginService (LoginRequest loginRequest)
     {
         this.loginRequest = loginRequest;
     }

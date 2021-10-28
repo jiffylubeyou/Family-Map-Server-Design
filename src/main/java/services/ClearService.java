@@ -2,7 +2,7 @@ package services;
 
 import requestresponse.ClearResult;
 
-public class Clear {
+public class ClearService {
 
     /**
      * @return ClearResult Object

@@ -3,14 +3,14 @@ package services;
 import requestresponse.PersonRequest;
 import requestresponse.PersonResult;
 
-public class Person {
+public class PersonService {
     private PersonRequest personRequest;
 
     /**
      * takes int person ID
      * @param personRequest PersonRequest object
      */
-    public Person (PersonRequest personRequest)
+    public PersonService (PersonRequest personRequest)
     {
         this.personRequest = personRequest;
     }

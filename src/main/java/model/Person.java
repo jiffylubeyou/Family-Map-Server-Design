@@ -90,9 +90,7 @@ public class Person {
     /**
      * @param gender String
      */
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+    public void setGender(String gender) { this.gender = gender; }
 
     /**
      * @return String
@@ -104,9 +102,7 @@ public class Person {
     /**
      * @param fatherID String
      */
-    public void setFatherID(String fatherID) {
-        this.fatherID = fatherID;
-    }
+    public void setFatherID(String fatherID) { this.fatherID = fatherID; }
 
     /**
      * @return String

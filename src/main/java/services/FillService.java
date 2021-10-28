@@ -3,14 +3,14 @@ package services;
 import requestresponse.FillRequest;
 import requestresponse.FillResult;
 
-public class Fill {
+public class FillService {
     private FillRequest fillRequest;
 
     /**
      * hands the request info to the fill service
      * @param fillRequest FillRequest object
      */
-    public Fill (FillRequest fillRequest)
+    public FillService (FillRequest fillRequest)
     {
         this.fillRequest = fillRequest;
     }
