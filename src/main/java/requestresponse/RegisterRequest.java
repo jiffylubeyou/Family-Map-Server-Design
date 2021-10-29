@@ -1,10 +1,10 @@
 package requestresponse;
 
 public class RegisterRequest {
-    String username;
-    String password;
-    String email;
-    String firstName;
-    String lastName;
-    String gender;
+    public String username;
+    public String password;
+    public String email;
+    public String firstName;
+    public String lastName;
+    public String gender;
 }

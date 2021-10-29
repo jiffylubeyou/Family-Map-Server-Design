@@ -1,5 +1,7 @@
 package services;
 
+import dao.DataAccessException;
+import dao.Database;
 import requestresponse.ClearResult;
 
 public class ClearService {
@@ -7,6 +9,19 @@ public class ClearService {
     /**
      * @return ClearResult Object
      */
-    ClearResult processClear() {return new ClearResult();}
-    //not sure if this will wind up being in the constructor
+    public ClearResult processClear()
+    {
+        try
+        {
+            Database database = new Database();
+            database.getConnection();
+            database.clearTables();
+            database.closeConnection(true);
+            return new ClearResult("Clear succeeded", true);
+        }
+        catch (DataAccessException e)
+        {
+            return new ClearResult(("Error: " + e.getMessage()), false);
+        }
+    }
 }

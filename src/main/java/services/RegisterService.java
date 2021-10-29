@@ -1,5 +1,7 @@
 package services;
 
+import dao.DataAccessException;
+import model.Person;
 import requestresponse.RegisterRequest;
 import requestresponse.RegisterResult;
 
@@ -16,11 +18,26 @@ public class RegisterService {
     }
 
     /**
-     * Will give us the authtoken and personID of the new user
+     * Will give us the auThtoken and personID of the new user
      * @return RegisterResult
      */
-    RegisterResult processRegister ()
+    public RegisterResult processRegister ()
     {
-        return new RegisterResult();
+
+        Person person = new Person(RandomUUID.generateRandom(), registerRequest.username, registerRequest.firstName,
+                registerRequest.lastName, registerRequest.gender, null, null, null);
+        try {
+            GenerateGenerations.generatePeople(person, registerRequest.lastName, registerRequest.username, 4);
+        }
+        catch (DataAccessException e)
+        {
+            return new RegisterResult( null, null, e.getMessage(), false);
+        }
+
+        //login
+        String authToken = RandomUUID.generateRandom();
+
+
+        return new RegisterResult(person.getAssociatedUsername(), person.getPersonID(), null,true);
     }
 }

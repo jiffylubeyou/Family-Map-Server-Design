@@ -21,6 +21,7 @@ public class LoginService {
      * @return LoginResult object
      */
     LoginResult processLogin () {
+        String authToken = RandomUUID.generateRandom();
         return new LoginResult();
     }
 }

@@ -99,16 +99,9 @@ public class Server {
         // forwards the request to the handler for that URL path.
         System.out.println("Creating contexts");
 
-        // Create and install the HTTP handler for the "/games/list" URL path.
-        // When the HttpServer receives an HTTP request containing the
-        // "/games/list" URL path, it will forward the request to ListGamesHandler
-        // for processing.
         server.createContext("/", new FileHandler());
+        server.createContext("/clear", new ClearHandler());
+        server.createContext("/user/register", new RegisterHandler());
 
-        // Create and install the HTTP handler for the "/routes/claim" URL path.
-        // When the HttpServer receives an HTTP request containing the
-        // "/routes/claim" URL path, it will forward the request to ClaimRouteHandler
-        // for processing.
-//        server.createContext("/routes/claim", new ClaimRouteHandler());
     }
 }

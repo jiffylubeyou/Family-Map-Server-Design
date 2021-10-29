@@ -35,17 +35,25 @@ public class FileHandler implements HttpHandler {
                 else
                 {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND,0);
+                    OutputStream respBody = exchange.getResponseBody();
+                    WriteString.writeString(GsonSerializer.toJson("Error: Bad Path (Command does not exist)"), respBody);
+                    respBody.close();
                 }
             }
             else
             {
                 // We wanted GET and didn't get it
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
+                OutputStream respBody = exchange.getResponseBody();
+                WriteString.writeString(GsonSerializer.toJson("Error: Bad Request (Command does not exist)"), respBody);
+                exchange.getResponseBody().close();
             }
         }
         catch (IOException e)
         {
-            exchange.sendResponseHeaders(HttpURLConnection.HTTP_SERVER_ERROR, 0);
+            exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
+            OutputStream respBody = exchange.getResponseBody();
+            WriteString.writeString(GsonSerializer.toJson("Error: Internal Server Error"), respBody);
             exchange.getResponseBody().close();
 
             e.printStackTrace();
