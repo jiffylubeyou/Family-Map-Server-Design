@@ -55,10 +55,11 @@ public class FillService {
                 eventDao3.Delete(person);
                 database.closeConnection(true);
 
-                int people = 2^(generations - 1);
+                int people = (int)(Math.pow(2, (generations - 1)) - 1);
+                int events = (int)((Math.pow(2, (generations - 1)) * 3) - 1);
                 GenerateGenerations.generatePeople(person, person.getLastName(),
                         person.getAssociatedUsername(),2021 , generations);
-                return new FillResult("Successfully added " + people + " persons and " + "Y" +
+                return new FillResult("Successfully added " + people + " persons and " + events +
                         " events to the database.", true);
             }
             else

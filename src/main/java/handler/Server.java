@@ -104,5 +104,8 @@ public class Server {
         server.createContext("/user/register", new RegisterHandler());
         server.createContext("/user/login", new LoginHandler());
         server.createContext("/fill", new FillHandler());
+        server.createContext("/load", new LoadHandler());
+        server.createContext("/person", new PersonHandler());
+
     }
 }

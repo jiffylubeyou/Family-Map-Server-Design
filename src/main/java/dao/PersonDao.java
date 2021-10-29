@@ -4,6 +4,7 @@ import model.Event;
 import model.Person;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -85,6 +86,38 @@ public class PersonDao {
         }
         return null;
     }
+
+    public Person[] getPeopleByUsername(String username) throws DataAccessException {
+        List<Person> people = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Persons WHERE AssociatedUsername = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                people.add(new Person(rs.getString("PersonID"), rs.getString("AssociatedUsername"),
+                        rs.getString("FirstName"), rs.getString("LastName"), rs.getString("Gender"), rs.getString("FatherID"),
+                        rs.getString("MotherID"), rs.getString("SpouseID")));
+            }
+            if (! people.isEmpty())
+            {
+                return people.toArray(new Person[0]);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while finding people");
+        } finally {
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Takes in a person object and deletes it from the Persons table

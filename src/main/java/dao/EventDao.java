@@ -4,6 +4,7 @@ import model.Event;
 import model.Person;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -87,9 +88,41 @@ public class EventDao {
         return null;
     }
 
+    public Event[] getEventsByUsername(String username) throws DataAccessException {
+        List<Event> Events = new ArrayList<>();
+        ResultSet rs = null;
+        String sql = "SELECT * FROM Events WHERE AssociatedUsername = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                Events.add(new Event(rs.getString("EventID"), rs.getString("AssociatedUsername"),
+                        rs.getString("PersonID"), rs.getFloat("Latitude"), rs.getFloat("Longitude"),
+                        rs.getString("Country"), rs.getString("City"), rs.getString("EventType"),
+                        rs.getInt("Year")));
+            }
+            if (! Events.isEmpty())
+            {
+                return Events.toArray(new Event[0]);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new DataAccessException("Error encountered while finding events");
+        } finally {
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     /**
      * Deletes all the events that are associated with the person object
-     * @param event object
+     * @param person Person object
      * @throws DataAccessException
      */
     public void Delete(Person person) throws DataAccessException

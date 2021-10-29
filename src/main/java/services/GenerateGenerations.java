@@ -85,7 +85,6 @@ public class GenerateGenerations {
         String string = Files.readString(fileName);
         DataArray fnames = GsonSerializer.fromJson(string, DataArray.class);
         int randomNum = ThreadLocalRandom.current().nextInt(0, fnames.data.length);
-        System.out.println(fnames.data.length);
         return fnames.data[randomNum];
     }
 
@@ -95,7 +94,6 @@ public class GenerateGenerations {
         String string = Files.readString(fileName);
         DataArray mnames = GsonSerializer.fromJson(string, DataArray.class);
         int randomNum = ThreadLocalRandom.current().nextInt(0, mnames.data.length);
-        System.out.println(mnames.data.length);
         return mnames.data[randomNum];
     }
 
@@ -105,7 +103,6 @@ public class GenerateGenerations {
         String string = Files.readString(fileName);
         DataArray snames = GsonSerializer.fromJson(string, DataArray.class);
         int randomNum = ThreadLocalRandom.current().nextInt(0, snames.data.length);
-        System.out.println(snames.data.length);
         return snames.data[randomNum];
     }
 
@@ -115,7 +112,6 @@ public class GenerateGenerations {
         String string = Files.readString(fileName);
         LocationArray locations = GsonSerializer.fromJson(string, LocationArray.class);
         int randomNum = ThreadLocalRandom.current().nextInt(0, locations.data.length);
-        System.out.println(locations.data.length);
         return locations.data[randomNum];
     }
 }

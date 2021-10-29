@@ -1,14 +1,21 @@
 package services;
 
+import dao.DataAccessException;
+import dao.Database;
+import dao.EventDao;
+import model.Event;
 import requestresponse.EventRequest;
 import requestresponse.EventResult;
+
+import javax.xml.crypto.Data;
+import java.sql.Connection;
 
 public class EventService {
     private EventRequest eventRequest;
 
     /**
-     * Takes in the eventrequest object to process it later
-     * @param eventRequest EventRequest Object
+     * takes int event ID
+     * @param eventRequest EventRequest object
      */
     public EventService (EventRequest eventRequest)
     {
@@ -16,10 +23,49 @@ public class EventService {
     }
 
     /**
-     * Generate and return the result object
+     * gives back the event info from the ID given
      * @return EventResult object
      */
-    EventResult processEvent() {
-        return new EventResult();
+    public EventResult processEvent () {
+
+        Database database = new Database();
+        try
+        {
+            Connection conn = database.getConnection();
+            EventDao dao = new EventDao(conn);
+            Event event = dao.find(eventRequest.eventID);
+            if (event != null) {
+                if (event.getUsername().equals(eventRequest.username)) {
+                    return new EventResult(event.getEventID(), event.getUsername(), event.getPersonID(),
+                            event.getLatitude(), event.getLongitude(), event.getCountry(), event.getCity(),
+                            event.getEventType(), event.getYear(), null, true);
+                }
+                else
+                {
+                    return new EventResult(null, null, null, null,
+                            null, null, null, null, null,
+                            "Error : Not In your family tree", false);
+                }
+            } else {
+                return new EventResult(null, null, null, null,
+                        null, null, null, null,null,
+                        "Error : That event can't be found", false);
+            }
+        }
+        catch (DataAccessException e)
+        {
+            try {
+                database.closeConnection(false);
+            } catch (DataAccessException ex)
+            {
+                return new EventResult(null,null,null,null,
+                        null,null,null,null, null,
+                        "Error :" + ex.getMessage(),false);
+            }
+            return new EventResult(null,null,null,null,
+                    null,null,null,null, null,
+                    "Error :" + e.getMessage(),false);
+
+        }
     }
 }
