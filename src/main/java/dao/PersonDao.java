@@ -94,7 +94,7 @@ public class PersonDao {
     public void Delete(Person person) throws DataAccessException
     {
         try (Statement stmt = conn.createStatement()){
-            String sql = "DELETE FROM Persons WHERE PersonID = " + person.getPersonID();
+            String sql = "DELETE FROM Persons WHERE AssociatedUsername = '" + person.getAssociatedUsername() + "';";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
             throw new DataAccessException("SQL Error encountered while deleting person");

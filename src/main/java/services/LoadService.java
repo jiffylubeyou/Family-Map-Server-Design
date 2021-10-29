@@ -18,7 +18,7 @@ public class LoadService {
      * returns the result generated from the given request
      * @return LoadResult object
      */
-    LoadResult processLoad() {
-        return new LoadResult();
+    public LoadResult processLoad() {
+        return new LoadResult("asdf", true);
     }
 }

@@ -87,7 +87,7 @@ public class UserDao {
     public void Delete(User user) throws DataAccessException
     {
         try (Statement stmt = conn.createStatement()){
-            String sql = "DELETE FROM Users WHERE Username = " + user.getUsername();
+            String sql = "DELETE FROM Users WHERE Username = '" + user.getUsername() + "';";
             stmt.executeUpdate(sql);
         } catch (SQLException e) {
             throw new DataAccessException("SQL Error encountered while deleting user");

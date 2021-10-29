@@ -1,9 +1,14 @@
 package services;
 
 import dao.DataAccessException;
+import dao.Database;
+import dao.UserDao;
 import model.Person;
+import model.User;
 import requestresponse.RegisterRequest;
 import requestresponse.RegisterResult;
+
+import java.sql.Connection;
 
 public class RegisterService {
     private RegisterRequest registerRequest;
@@ -23,21 +28,50 @@ public class RegisterService {
      */
     public RegisterResult processRegister ()
     {
-
-        Person person = new Person(RandomUUID.generateRandom(), registerRequest.username, registerRequest.firstName,
-                registerRequest.lastName, registerRequest.gender, null, null, null);
+        Database database = new Database();
         try {
-            GenerateGenerations.generatePeople(person, registerRequest.lastName, registerRequest.username, 4);
+            Connection conn = database.getConnection();
+            UserDao dao = new UserDao(conn);
+            User user = dao.find(registerRequest.username);
+            database.closeConnection(true);
+            if (user != null)
+            {
+                return new RegisterResult( null, null, null,
+                        "Error: This username is already taken.", false);
+            }
+
         }
         catch (DataAccessException e)
         {
-            return new RegisterResult( null, null, e.getMessage(), false);
+            return new RegisterResult( null, null, null, e.getMessage(), false);
         }
 
-        //login
-        String authToken = RandomUUID.generateRandom();
+        //create the Person first
+        Person person = new Person(RandomUUID.generateRandom(), registerRequest.username, registerRequest.firstName,
+                registerRequest.lastName, registerRequest.gender, null, null, null);
+        try {
+            GenerateGenerations.generatePeople(person, registerRequest.lastName, registerRequest.username, 2021, 4);
+        }
+        catch (Exception e)
+        {
+            return new RegisterResult( null, null, null, e.getMessage(), false);
+        }
 
+        //You have and the person and populated the data, now create the User
+        User user = new User(registerRequest.username, registerRequest.password, registerRequest.email,
+                registerRequest.firstName, registerRequest.lastName, registerRequest.gender, person.getPersonID());
 
-        return new RegisterResult(person.getAssociatedUsername(), person.getPersonID(), null,true);
+        try {
+            Connection conn2 = database.getConnection();
+            UserDao dao = new UserDao(conn2);
+            dao.insert(user);
+            database.closeConnection(true);
+        }
+        catch (Exception e)
+        {
+            return new RegisterResult( null, null, null, e.getMessage(), false);
+        }
+
+        return new RegisterResult(person.getAssociatedUsername(), person.getPersonID(), registerRequest.password,null,true);
     }
 }

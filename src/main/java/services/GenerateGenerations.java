@@ -2,14 +2,20 @@ package services;
 
 import dao.DataAccessException;
 import dao.Database;
+import dao.EventDao;
 import dao.PersonDao;
+import handler.GsonSerializer;
+import model.Event;
 import model.Person;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.sql.Connection;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class GenerateGenerations {
-    static public void generatePeople(Person person, String lastName, String username, int generations) throws DataAccessException
+    static public void generatePeople(Person person, String lastName, String username, int year, int generations) throws DataAccessException, IOException
     {
         String motherID = RandomUUID.generateRandom();
         String fatherID = RandomUUID.generateRandom();
@@ -26,132 +32,90 @@ public class GenerateGenerations {
 
         Database database = new Database();
         Connection conn = database.getConnection();
-        PersonDao dao = new PersonDao(conn);
+        EventDao eventDao = new EventDao(conn);
+
+        //Add events
+        Location birthLocation = getRandomLocation();
+        Event birth = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
+                birthLocation.latitude, birthLocation.longitude, birthLocation.country, birthLocation.city,
+                "birth", (year - 20));
+        eventDao.insert(birth);
+
+        if (generations > 0) {
+            Location marriageLocation = getRandomLocation();
+            Event marriageMom = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), motherID,
+                    marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
+                    "marriage", (year - 30));
+
+            Event marriageDad = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), fatherID,
+                    marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
+                    "marriage", (year - 30));
+            eventDao.insert(marriageMom);
+            eventDao.insert(marriageDad);
+        }
+
+        if (person.getSpouseID() != null)
+        {
+            Location deathLocation = getRandomLocation();
+            Event death = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
+                    deathLocation.latitude, deathLocation.longitude, deathLocation.country, deathLocation.city,
+                    "death", (year + 20));
+            eventDao.insert(death);
+        }
+        database.closeConnection(true);
+
+        Connection conn2 = database.getConnection();
+        PersonDao dao = new PersonDao(conn2);
         dao.insert(person);
         database.closeConnection(true);
 
 
         if (generations > (0))
         {
+            year = year - 30;
             generations = generations - 1;
-            GenerateGenerations.generatePeople(mother, getRandomLastName(), username, generations);
-            GenerateGenerations.generatePeople(father, lastName, username, generations);
+            GenerateGenerations.generatePeople(mother, getRandomLastName(), username, year, generations);
+            GenerateGenerations.generatePeople(father, lastName, username, year, generations);
         }
     }
 
-    static private String getRandomGirlFirstName()
+    static private String getRandomGirlFirstName() throws IOException
     {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-        if (randomNum == 0)
-        {
-            return "Sally";
-        }
-        if (randomNum == 1)
-        {
-            return "Lucy";
-        }
-        if (randomNum == 2)
-        {
-            return "Olga";
-        }
-        if (randomNum == 3)
-        {
-            return "Leshanda";
-        }
-        if (randomNum == 4)
-        {
-            return "Rhonda";
-        }
-        if (randomNum == 5)
-        {
-            return "Susan";
-        }
-        if (randomNum == 6)
-        {
-            return "Samantha";
-        }
-        if (randomNum == 7)
-        {
-            return "Scarlet";
-        }
-        if (randomNum == 8)
-        {
-            return "Evangeline";
-        }
-        if (randomNum == 9)
-        {
-            return "Elizabeth";
-        }
-        return "This shouldn't happen";
+        Path fileName = Path.of("./json/fnames.json");
+        String string = Files.readString(fileName);
+        DataArray fnames = GsonSerializer.fromJson(string, DataArray.class);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, fnames.data.length);
+        System.out.println(fnames.data.length);
+        return fnames.data[randomNum];
     }
 
-    static private String getRandomBoyFirstName() {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-        if (randomNum == 0) {
-            return "Bill";
-        }
-        if (randomNum == 1) {
-            return "Bob";
-        }
-        if (randomNum == 2) {
-            return "Frank";
-        }
-        if (randomNum == 3) {
-            return "Rob";
-        }
-        if (randomNum == 4) {
-            return "Joe";
-        }
-        if (randomNum == 5) {
-            return "Peter";
-        }
-        if (randomNum == 6) {
-            return "Bruce";
-        }
-        if (randomNum == 7) {
-            return "Max";
-        }
-        if (randomNum == 8) {
-            return "Kenny";
-        }
-        if (randomNum == 9) {
-            return "Alex";
-        }
-        return "This shouldn't happen";
+    static private String getRandomBoyFirstName() throws  IOException
+    {
+        Path fileName = Path.of("./json/mnames.json");
+        String string = Files.readString(fileName);
+        DataArray mnames = GsonSerializer.fromJson(string, DataArray.class);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, mnames.data.length);
+        System.out.println(mnames.data.length);
+        return mnames.data[randomNum];
     }
 
-    static private String getRandomLastName() {
-        int randomNum = ThreadLocalRandom.current().nextInt(0, 9 + 1);
-        if (randomNum == 0) {
-            return "Johansson";
-        }
-        if (randomNum == 1) {
-            return "Strong";
-        }
-        if (randomNum == 2) {
-            return "Lee";
-        }
-        if (randomNum == 3) {
-            return "Amado-Vo";
-        }
-        if (randomNum == 4) {
-            return "Smith";
-        }
-        if (randomNum == 5) {
-            return "Brown";
-        }
-        if (randomNum == 6) {
-            return "White";
-        }
-        if (randomNum == 7) {
-            return "Black";
-        }
-        if (randomNum == 8) {
-            return "Wayne";
-        }
-        if (randomNum == 9) {
-            return "Grundy";
-        }
-        return "This shouldn't happen";
+    static private String getRandomLastName() throws IOException
+    {
+        Path fileName = Path.of("./json/snames.json");
+        String string = Files.readString(fileName);
+        DataArray snames = GsonSerializer.fromJson(string, DataArray.class);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, snames.data.length);
+        System.out.println(snames.data.length);
+        return snames.data[randomNum];
+    }
+
+    static private Location getRandomLocation() throws IOException
+    {
+        Path fileName = Path.of("./json/locations.json");
+        String string = Files.readString(fileName);
+        LocationArray locations = GsonSerializer.fromJson(string, LocationArray.class);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, locations.data.length);
+        System.out.println(locations.data.length);
+        return locations.data[randomNum];
     }
 }
