@@ -36,11 +36,11 @@ public class LoginService {
             database.closeConnection(true);
             if (user == null)
             {
-                return new LoginResult(null, null, null, "No such username was found", false);
+                return new LoginResult(null, null, null, "Error: No such username was found", false);
             }
             if (! user.getPassword().equals(loginRequest.password))
             {
-                return new LoginResult(null, null, null, "Password was incorrect", false);
+                return new LoginResult(null, null, null, "Error: Password was incorrect", false);
             }
 
             String authToken = RandomUUID.generateRandom();

@@ -3,6 +3,7 @@ package handler;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import requestresponse.*;
+import services.ClearService;
 import services.LoadService;
 
 import java.io.IOException;
@@ -19,6 +20,10 @@ class LoadHandler implements HttpHandler {
             if (exchange.getRequestMethod().toUpperCase().equals("POST")) {
 
                 InputStream reqBody = exchange.getRequestBody();
+
+                //clear tables first
+                ClearService clearService = new ClearService();
+                clearService.processClear();
 
                 String reqData = ReadString.readString(reqBody);
                 LoadService service = new LoadService(GsonSerializer.fromJson(reqData, LoadRequest.class));

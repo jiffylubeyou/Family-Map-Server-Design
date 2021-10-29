@@ -37,7 +37,7 @@ public class RegisterService {
             if (user != null)
             {
                 return new RegisterResult( null, null, null,
-                        "Error: This username is already taken.", false);
+                        "Error: Username already taken by another user", false);
             }
 
         }

@@ -63,7 +63,7 @@ public class FillService {
             }
             else
             {
-                return new FillResult("No such user exists", false);
+                return new FillResult("Error: Invalid username or generations parameter", false);
             }
         }
         catch (Exception e)

@@ -32,7 +32,7 @@ class LoginHandler implements HttpHandler {
                 }
                 else
                 {
-                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_UNAUTHORIZED, 0);
+                    exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     OutputStream respBody = exchange.getResponseBody();
                     WriteString.writeString(GsonSerializer.toJson(result), respBody);
                     respBody.close();
