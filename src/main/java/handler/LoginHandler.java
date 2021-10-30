@@ -40,14 +40,16 @@ class LoginHandler implements HttpHandler {
             } else {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                 OutputStream respBody = exchange.getResponseBody();
-                WriteString.writeString(GsonSerializer.toJson("Error: Bad request, should be POST"), respBody);
+                WriteString.writeString(GsonSerializer.toJson(new LoginResult(null,null,
+                        null,"Error: Bad request, should be POST",false)), respBody);
                 exchange.getResponseBody().close();
             }
         } catch
         (IOException e) {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
             OutputStream respBody = exchange.getResponseBody();
-            WriteString.writeString(GsonSerializer.toJson("Error: IO Exception"), respBody);
+            WriteString.writeString(GsonSerializer.toJson(new LoginResult(null,null,
+                    null,"Error: IO Exception",false)), respBody);
             exchange.getResponseBody().close();
 
             e.printStackTrace();

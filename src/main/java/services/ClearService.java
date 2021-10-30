@@ -4,6 +4,8 @@ import dao.DataAccessException;
 import dao.Database;
 import requestresponse.ClearResult;
 
+import javax.xml.crypto.Data;
+
 public class ClearService {
 
     /**
@@ -11,9 +13,9 @@ public class ClearService {
      */
     public ClearResult processClear()
     {
+        Database database = new Database();
         try
         {
-            Database database = new Database();
             database.getConnection();
             database.clearTables();
             database.closeConnection(true);
@@ -21,7 +23,14 @@ public class ClearService {
         }
         catch (DataAccessException e)
         {
-            return new ClearResult(("Error: " + e.getMessage()), false);
+            try {
+                database.closeConnection(false);
+                return new ClearResult(("Error: " + e.getMessage()), false);
+            }
+            catch (DataAccessException ex)
+            {
+                return new ClearResult(("Error: " + ex.getMessage()), false);
+            }
         }
     }
 }

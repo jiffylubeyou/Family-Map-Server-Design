@@ -7,13 +7,10 @@ import dao.AuthTokenDao;
 import dao.DataAccessException;
 import dao.Database;
 import requestresponse.*;
-import services.ClearService;
 import services.EventService;
 import services.EventServiceArray;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.sql.Connection;
@@ -46,15 +43,19 @@ class EventHandler implements HttpHandler {
                             database.closeConnection(false);
                             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
                             OutputStream respBody = exchange.getResponseBody();
-                            WriteString.writeString(GsonSerializer.toJson("Error: " + e.getMessage()), respBody);
-                            respBody.close();
+                            WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                                    null,null,null,null,null,null, null,
+                                    "Error: " + e.getMessage(), false)), respBody);
+                            exchange.getResponseBody().close();
                         }
                         catch (DataAccessException ex)
                         {
                             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
                             OutputStream respBody = exchange.getResponseBody();
-                            WriteString.writeString(GsonSerializer.toJson("Error: " + ex.getMessage()), respBody);
-                            respBody.close();
+                            WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                                    null,null,null,null,null,null, null,
+                                    "Error: " + ex.getMessage(), false)), respBody);
+                            exchange.getResponseBody().close();
                         }
                     }
                     if (username != null) {
@@ -76,7 +77,7 @@ class EventHandler implements HttpHandler {
                                 WriteString.writeString(GsonSerializer.toJson(result), respBody);
                                 respBody.close();
                             } else {
-                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
+                                exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                                 OutputStream respBody = exchange.getResponseBody();
                                 WriteString.writeString(GsonSerializer.toJson(result), respBody);
                                 respBody.close();
@@ -101,9 +102,11 @@ class EventHandler implements HttpHandler {
                     }
                     else
                     {
-                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_UNAUTHORIZED, 0);
+                        exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                         OutputStream respBody = exchange.getResponseBody();
-                        WriteString.writeString(GsonSerializer.toJson("Error: Unauthorized to access"), respBody);
+                        WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                                null,null,null,null,null,null, null,
+                                "Error: Unauthorized to access", false)), respBody);
                         exchange.getResponseBody().close();
                     }
                 }
@@ -111,7 +114,9 @@ class EventHandler implements HttpHandler {
                 {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                     OutputStream respBody = exchange.getResponseBody();
-                    WriteString.writeString(GsonSerializer.toJson("Error: Bad request, no Authorization key"), respBody);
+                    WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                            null,null,null,null,null,null, null,
+                            "Error: Bad request no Authorization key", false)), respBody);
                     exchange.getResponseBody().close();
                 }
             }
@@ -119,7 +124,9 @@ class EventHandler implements HttpHandler {
             {
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_BAD_REQUEST, 0);
                 OutputStream respBody = exchange.getResponseBody();
-                WriteString.writeString(GsonSerializer.toJson("Error: Bad request, should be POST"), respBody);
+                WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                        null,null,null,null,null,null, null,
+                        "Error: Bad request, should be POST", false)), respBody);
                 exchange.getResponseBody().close();
             }
         }
@@ -127,7 +134,9 @@ class EventHandler implements HttpHandler {
         {
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_INTERNAL_ERROR, 0);
             OutputStream respBody = exchange.getResponseBody();
-            WriteString.writeString(GsonSerializer.toJson("Error: IO Exception"), respBody);
+            WriteString.writeString(GsonSerializer.toJson(new EventResult(null,null,
+                    null,null,null,null,null,null, null,
+                    "Error: IO Exception", false)), respBody);
             exchange.getResponseBody().close();
 
             e.printStackTrace();

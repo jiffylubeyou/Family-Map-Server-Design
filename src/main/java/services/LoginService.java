@@ -28,8 +28,8 @@ public class LoginService {
      * @return LoginResult object
      */
     public LoginResult processLogin () {
+        Database database = new Database();
         try {
-            Database database = new Database();
             Connection conn = database.getConnection();
             UserDao dao = new UserDao(conn);
             User user = dao.find(loginRequest.username);
@@ -52,6 +52,13 @@ public class LoginService {
         }
         catch (DataAccessException e)
         {
+            try {
+                database.closeConnection(false);
+            }
+            catch (DataAccessException ex)
+            {
+                return new LoginResult(null, null, null, ex.getMessage(), false);
+            }
             return new LoginResult(null, null, null, e.getMessage(), false);
         }
     }

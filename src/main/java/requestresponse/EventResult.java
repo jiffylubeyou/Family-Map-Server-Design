@@ -4,17 +4,17 @@ public class EventResult {
     String eventID;
     String associatedUsername;
     String personID;
-    float latitude;
-    float longitude;
+    String latitude;
+    String longitude;
     String country;
     String city;
     String eventType;
-    int year;
+    String year;
     String message;
     public boolean success;
 
-    public EventResult(String eventID, String username, String personID, float latitude, float longitude,
-                 String country, String city, String eventType, int year, String message, boolean success) {
+    public EventResult(String eventID, String username, String personID, String latitude, String longitude,
+                 String country, String city, String eventType, String year, String message, boolean success) {
         this.eventID = eventID;
         this.associatedUsername = username;
         this.personID = personID;
@@ -26,4 +26,5 @@ public class EventResult {
         this.year = year;
         this.message = message;
         this.success = success;
+    }
 }

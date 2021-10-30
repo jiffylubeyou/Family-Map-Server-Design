@@ -5,7 +5,6 @@ import dao.Database;
 import dao.EventDao;
 import model.Event;
 import requestresponse.EventRequest;
-import requestresponse.EventResult;
 import requestresponse.EventResultArray;
 
 import java.sql.Connection;

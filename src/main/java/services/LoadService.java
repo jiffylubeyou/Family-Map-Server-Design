@@ -56,6 +56,8 @@ public class LoadService {
             }
             return new LoadResult("Error: " + e.getMessage(), false);
         }
-        return new LoadResult("asdf", true);
+        return new LoadResult("Successfully added " + loadRequest.users.length + " users, " +
+                loadRequest.persons.length + " persons, and " +
+                loadRequest.events.length + " events to the database.", true);
     }
 }

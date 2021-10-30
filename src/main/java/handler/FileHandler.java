@@ -36,7 +36,8 @@ public class FileHandler implements HttpHandler {
                 {
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_NOT_FOUND,0);
                     OutputStream respBody = exchange.getResponseBody();
-                    WriteString.writeString(GsonSerializer.toJson("Error: Bad Path (Command does not exist)"), respBody);
+                    File file1 = new File("web/HTML/404.html");
+                    Files.copy((file1.toPath()), respBody);
                     respBody.close();
                 }
             }

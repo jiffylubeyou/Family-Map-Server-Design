@@ -27,48 +27,61 @@ public class GenerateGenerations {
         Person father = new Person(fatherID, username, getRandomBoyFirstName(), lastName,
                 "m", null, null, motherID);
 
-        person.setMotherID(motherID);
-        person.setFatherID(fatherID);
+        if (generations > 0) {
+            person.setMotherID(motherID);
+            person.setFatherID(fatherID);
+        }
 
         Database database = new Database();
-        Connection conn = database.getConnection();
-        EventDao eventDao = new EventDao(conn);
+        try {
+            Connection conn = database.getConnection();
+            EventDao eventDao = new EventDao(conn);
 
-        //Add events
-        Location birthLocation = getRandomLocation();
-        Event birth = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
-                birthLocation.latitude, birthLocation.longitude, birthLocation.country, birthLocation.city,
-                "birth", (year - 20));
-        eventDao.insert(birth);
+            //Add events
+            Location birthLocation = getRandomLocation();
+            Event birth = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
+                    birthLocation.latitude, birthLocation.longitude, birthLocation.country, birthLocation.city,
+                    "birth", (year - 20));
+            eventDao.insert(birth);
 
-        if (generations > 0) {
-            Location marriageLocation = getRandomLocation();
-            Event marriageMom = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), motherID,
-                    marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
-                    "marriage", (year - 30));
+            if (generations > 0) {
+                Location marriageLocation = getRandomLocation();
+                Event marriageMom = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), motherID,
+                        marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
+                        "marriage", (year - 30));
 
-            Event marriageDad = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), fatherID,
-                    marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
-                    "marriage", (year - 30));
-            eventDao.insert(marriageMom);
-            eventDao.insert(marriageDad);
+                Event marriageDad = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), fatherID,
+                        marriageLocation.latitude, marriageLocation.longitude, marriageLocation.country, marriageLocation.city,
+                        "marriage", (year - 30));
+                eventDao.insert(marriageMom);
+                eventDao.insert(marriageDad);
+            }
+
+            if (person.getSpouseID() != null) {
+                Location deathLocation = getRandomLocation();
+                Event death = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
+                        deathLocation.latitude, deathLocation.longitude, deathLocation.country, deathLocation.city,
+                        "death", (year + 20));
+                eventDao.insert(death);
+            }
+            database.closeConnection(true);
+
+            Connection conn2 = database.getConnection();
+            PersonDao dao = new PersonDao(conn2);
+            dao.insert(person);
+            database.closeConnection(true);
         }
-
-        if (person.getSpouseID() != null)
+        catch (DataAccessException e)
         {
-            Location deathLocation = getRandomLocation();
-            Event death = new Event(RandomUUID.generateRandom(), person.getAssociatedUsername(), person.getPersonID(),
-                    deathLocation.latitude, deathLocation.longitude, deathLocation.country, deathLocation.city,
-                    "death", (year + 20));
-            eventDao.insert(death);
+            try {
+                database.closeConnection(false);
+            }
+            catch (DataAccessException ex)
+            {
+                throw ex;
+            }
+            throw e;
         }
-        database.closeConnection(true);
-
-        Connection conn2 = database.getConnection();
-        PersonDao dao = new PersonDao(conn2);
-        dao.insert(person);
-        database.closeConnection(true);
-
 
         if (generations > (0))
         {

@@ -53,7 +53,7 @@ public class AuthTokenDao {
     public String find(String authtoken) throws DataAccessException {
         String associatedUsername;
         ResultSet rs = null;
-        String sql = "SELECT * FROM Events WHERE EventID = ?;";
+        String sql = "SELECT * FROM AuthTokens WHERE TokenID = ?;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, authtoken);
             rs = stmt.executeQuery();
@@ -63,7 +63,7 @@ public class AuthTokenDao {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            throw new DataAccessException("Error encountered while finding event");
+            throw new DataAccessException("Error encountered while finding authToken");
         } finally {
             if(rs != null) {
                 try {

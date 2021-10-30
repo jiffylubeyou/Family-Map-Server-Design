@@ -7,7 +7,6 @@ import model.Event;
 import requestresponse.EventRequest;
 import requestresponse.EventResult;
 
-import javax.xml.crypto.Data;
 import java.sql.Connection;
 
 public class EventService {
@@ -34,11 +33,12 @@ public class EventService {
             Connection conn = database.getConnection();
             EventDao dao = new EventDao(conn);
             Event event = dao.find(eventRequest.eventID);
+            database.closeConnection(true);
             if (event != null) {
                 if (event.getUsername().equals(eventRequest.username)) {
                     return new EventResult(event.getEventID(), event.getUsername(), event.getPersonID(),
-                            event.getLatitude(), event.getLongitude(), event.getCountry(), event.getCity(),
-                            event.getEventType(), event.getYear(), null, true);
+                            Float.toString(event.getLatitude()), Float.toString(event.getLongitude()), event.getCountry(), event.getCity(),
+                            event.getEventType(), Integer.toString(event.getYear()), null, true);
                 }
                 else
                 {

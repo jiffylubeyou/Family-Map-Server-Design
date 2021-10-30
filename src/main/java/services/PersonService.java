@@ -34,6 +34,7 @@ public class PersonService {
             Connection conn = database.getConnection();
             PersonDao dao = new PersonDao(conn);
             Person person = dao.find(personRequest.personID);
+            database.closeConnection(true);
             if (person != null) {
                 if (person.getAssociatedUsername().equals(personRequest.username)) {
                     return new PersonResult(person.getAssociatedUsername(), person.getPersonID(), person.getFirstName(),

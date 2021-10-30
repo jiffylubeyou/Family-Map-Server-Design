@@ -29,8 +29,8 @@ public class FillService {
      */
     public FillResult processFill () {
 
+        Database database = new Database();
         try {
-            Database database = new Database();
             Connection conn = database.getConnection();
             UserDao dao = new UserDao(conn);
             User user = dao.find(username);
@@ -55,8 +55,8 @@ public class FillService {
                 eventDao3.Delete(person);
                 database.closeConnection(true);
 
-                int people = (int)(Math.pow(2, (generations - 1)) - 1);
-                int events = (int)((Math.pow(2, (generations - 1)) * 3) - 1);
+                int people = (int)(Math.pow(2, (generations + 1)) - 1);
+                int events = (int)((Math.pow(2, (generations + 1)) * 3) - 2);
                 GenerateGenerations.generatePeople(person, person.getLastName(),
                         person.getAssociatedUsername(),2021 , generations);
                 return new FillResult("Successfully added " + people + " persons and " + events +
@@ -69,6 +69,13 @@ public class FillService {
         }
         catch (Exception e)
         {
+            try {
+                database.closeConnection(false);
+            }
+            catch (DataAccessException ex)
+            {
+                return new FillResult(ex.getMessage(), false);
+            }
             return new FillResult(e.getMessage(), false);
         }
     }
