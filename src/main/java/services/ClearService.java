@@ -4,8 +4,6 @@ import dao.DataAccessException;
 import dao.Database;
 import requestresponse.ClearResult;
 
-import javax.xml.crypto.Data;
-
 public class ClearService {
 
     /**
