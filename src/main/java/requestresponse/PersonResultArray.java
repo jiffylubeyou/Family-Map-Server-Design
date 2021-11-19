@@ -13,4 +13,12 @@ public class PersonResultArray {
         this.message = message;
         this.success = success;
     }
+
+    public Person[] getPeople() {
+        return data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

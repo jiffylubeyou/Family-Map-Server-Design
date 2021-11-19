@@ -13,4 +13,12 @@ public class EventResultArray {
         this.message = message;
         this.success = success;
     }
+
+    public Event[] getEvents() {
+        return data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

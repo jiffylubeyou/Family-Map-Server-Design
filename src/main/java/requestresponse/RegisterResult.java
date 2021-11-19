@@ -15,4 +15,20 @@ public class RegisterResult {
         this.message = message;
         this.success = success;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
