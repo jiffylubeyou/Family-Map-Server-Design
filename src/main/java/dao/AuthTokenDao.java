@@ -91,6 +91,10 @@ public class AuthTokenDao {
         }
     }
 
+    /**
+     * Will clear the database of all AuthTokens
+     * @throws DataAccessException
+     */
     public void clearTable() throws DataAccessException
     {
         try (Statement stmt = conn.createStatement()){

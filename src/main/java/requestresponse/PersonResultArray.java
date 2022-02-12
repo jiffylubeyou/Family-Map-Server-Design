@@ -7,6 +7,12 @@ public class PersonResultArray {
     String message;
     public boolean success;
 
+    /**
+     * Conttructor that builds the object with the correct info
+     * @param data
+     * @param message
+     * @param success
+     */
     public PersonResultArray (Person[] data, String message, boolean success)
     {
         this.data = data;
@@ -18,6 +24,9 @@ public class PersonResultArray {
         return data;
     }
 
+    /**
+     * @return message String object
+     */
     public String getMessage() {
         return message;
     }

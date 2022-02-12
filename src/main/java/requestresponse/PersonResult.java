@@ -12,6 +12,19 @@ public class PersonResult {
     String message;
     public boolean success;
 
+    /**
+     * Constructor that builds the object with the correct info
+     * @param associatedUsername
+     * @param personID
+     * @param firstName
+     * @param lastName
+     * @param gender
+     * @param fatherID
+     * @param motherID
+     * @param spouseID
+     * @param message
+     * @param success
+     */
     public PersonResult(String associatedUsername, String personID, String firstName, String lastName,
                         String gender, String fatherID, String motherID, String spouseID, String message, boolean success)
     {

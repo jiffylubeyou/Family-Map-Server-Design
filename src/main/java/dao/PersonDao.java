@@ -134,6 +134,10 @@ public class PersonDao {
         }
     }
 
+    /**
+     * Will clear the database of all Persons
+     * @throws DataAccessException
+     */
     public void clearTable() throws DataAccessException
     {
         try (Statement stmt = conn.createStatement()){

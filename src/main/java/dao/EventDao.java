@@ -135,6 +135,10 @@ public class EventDao {
         }
     }
 
+    /**
+     * Will clear the database of all Events
+     * @throws DataAccessException
+     */
     public void clearTable() throws DataAccessException
     {
         try (Statement stmt = conn.createStatement()){

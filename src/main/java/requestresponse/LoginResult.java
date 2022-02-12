@@ -7,6 +7,14 @@ public class LoginResult {
     String message;
     public boolean success;
 
+    /**
+     * Builds the object taking in the necessary information
+     * @param authtoken
+     * @param username
+     * @param personID
+     * @param message
+     * @param success
+     */
     public LoginResult(String authtoken, String username, String personID, String message, boolean success)
     {
         this.authtoken = authtoken;
@@ -20,14 +28,23 @@ public class LoginResult {
         return authtoken;
     }
 
+    /**
+     * @return String object username
+     */
     public String getUsername() {
         return username;
     }
 
+    /**
+     * @return String object personID
+     */
     public String getPersonID() {
         return personID;
     }
 
+    /**
+     * @return String object message
+     */
     public String getMessage() {
         return message;
     }

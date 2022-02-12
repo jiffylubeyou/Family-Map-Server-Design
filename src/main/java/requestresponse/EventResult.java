@@ -13,6 +13,20 @@ public class EventResult {
     String message;
     public boolean success;
 
+    /**
+     * Constructor that takes in the object necessary to build the object
+     * @param eventID
+     * @param username
+     * @param personID
+     * @param latitude
+     * @param longitude
+     * @param country
+     * @param city
+     * @param eventType
+     * @param year
+     * @param message
+     * @param success
+     */
     public EventResult(String eventID, String username, String personID, String latitude, String longitude,
                  String country, String city, String eventType, String year, String message, boolean success) {
         this.eventID = eventID;
